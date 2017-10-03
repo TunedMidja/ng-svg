@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { DimensionComponent } from '../dimension/dimension.component'
-import { Idim } from 'app/idim';
+import { Idim } from 'app/interfaces';
 import 'rxjs/add/operator/debounceTime';
 
 @Component({

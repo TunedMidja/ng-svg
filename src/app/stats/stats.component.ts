@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GraphComponent } from '../graph/graph.component';
 import { ControlsComponent } from '../controls/controls.component';
-import { Istat, StatService } from 'app/stat.service';
+import { DataService } from 'app/data.service';
+import { Istat } from 'app/interfaces';
+
 @Component({
   selector: 'app-stats',
   template: `
@@ -10,15 +12,15 @@ import { Istat, StatService } from 'app/stat.service';
   <app-dataview [stats]="stats"></app-dataview>
   `,
   styles: [],
-  providers: [StatService]
+  providers: [DataService]
 })
 export class StatsComponent implements OnInit {
   stats: Istat[];
 
-  constructor(private statservice: StatService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.stats = this.statservice.getStats();
+    this.stats = this.dataService.getStats();
   }
 
 }

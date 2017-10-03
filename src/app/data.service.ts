@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Istat } from 'app/interfaces';
 
 @Injectable()
-export class StatService {
+export class DataService {
   private stats: Istat[] = [
     {label: 'Combat', value: 90},
     {label: 'Endurance', value: 80},
@@ -33,7 +34,4 @@ export class StatService {
 }
 
 
-export interface Istat {
-  label: string;
-  value: number;
-}
+

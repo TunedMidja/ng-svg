@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { Idim } from 'app/idim';
+import { Idim } from 'app/interfaces';
 
 @Component({
   selector: '[app-dimension]',

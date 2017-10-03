@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StatService, Istat } from 'app/stat.service';
-
+import { DataService } from 'app/data.service';
+import { Istat, Ipoint } from 'app/interfaces';
 
 @Component({
   selector: 'app-graph',
@@ -47,11 +47,11 @@ export class GraphComponent implements OnInit {
   points: Ipoint[];
   total: number;
 
-  constructor(private statservice: StatService) {
+  constructor(private dataService: DataService) {
   }
 
   ngOnInit() {
-    this.stats = this.statservice.getStats();
+    this.stats = this.dataService.getStats();
     this.total = this.stats.length;
     this.polypoints = this.computePoints(this.stats);
   }
@@ -96,7 +96,4 @@ export class GraphComponent implements OnInit {
 
 }
 
-export interface Ipoint {
-  x: number;
-  y: number;
-}
+

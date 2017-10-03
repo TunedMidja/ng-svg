@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { ControlsComponent } from './controls/controls.component';
 import { GraphComponent } from './graph/graph.component';
 import { DataviewComponent } from './dataview/dataview.component';
-import { StatService } from 'app/stat.service';
+import { DataService } from 'app/data.service';
 import { StatsComponent } from "app/stats/stats.component";
 import { BeamComponent } from "app/beam/beam.component";
 import { SectionComponent } from "app/section/section.component";
@@ -45,7 +45,7 @@ const appRoutes: Routes = [
       //{ enableTracing: true} //for debugging only
     )
   ],
-  providers: [StatService],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

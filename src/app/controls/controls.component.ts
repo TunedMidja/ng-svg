@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Istat, StatService } from 'app/stat.service';
+import { DataService } from 'app/data.service';
+import { Istat } from 'app/interfaces'
 
 // app-controls is a bunch of knobs/dials/buttons to change the svg
 
@@ -24,21 +25,20 @@ import { Istat, StatService } from 'app/stat.service';
 export class ControlsComponent implements OnInit {
   newLabel: string;
   stats: Istat[];
-  constructor(private statservice: StatService) {
-    this.statservice = statservice;
+  constructor(private dataService: DataService) {
   }
 
   ngOnInit() {
-    this.stats = this.statservice.getStats();
+    this.stats = this.dataService.getStats();
   }
 
   addStat() {
     if (!this.newLabel) { return; } // do nothing if empty
-    this.statservice.addStat(this.newLabel);
+    this.dataService.addStat(this.newLabel);
     this.newLabel = '';
   }
   removeStat(s: Istat) {
-    this.statservice.removeStat(s);
+    this.dataService.removeStat(s);
   }
 
 }
