@@ -10,13 +10,16 @@ import {Istat} from '../interfaces';
         <svg:g>
           <svg:line [attr.x1]="legendMargin" y1="0" [attr.x2]="legendMargin" [attr.y2]="width-legendMargin" [attr.stroke-width]="axisStrokeWidth" [attr.stroke]="axisColor"></svg:line>
           <svg:line [attr.x1]="legendMargin" [attr.y1]="height-legendMargin" [attr.x2]="width" [attr.y2]="width-legendMargin" [attr.stroke-width]="axisStrokeWidth" [attr.stroke]="axisColor"></svg:line>
-          <rect [attr.x]="legendMargin" y="20" width="50" height="330" style="fill: blue; stroke: darkblue; stroke-width: 1; fill-opacity: 0.5; stroke-opacity: 0.8" />
-          <rect [attr.x]="legendMargin + 100" y="120" width="50" height="230" style="fill: blue; stroke: darkblue; stroke-width: 1; fill-opacity: 0.5; stroke-opacity: 0.8" />
+          <svg:rect *ngFor="let stat of stats; index as i" [attr.x]="legendMargin + i * (barWidth + 10)" [attr.y]="getYStart(stat)" [attr.height]="getHeight(stat)" [attr.width]="barWidth" />
         </svg:g>
       </svg>
     </div>
   `,
-  styles: []
+  styles: [`
+    rect {
+      fill: blue; stroke: darkblue; stroke-width: 1; fill-opacity: 0.5; stroke-opacity: 0.8
+    }
+  `]
 })
 export class BarChartComponent implements OnInit {
   private width = 400;
@@ -24,6 +27,7 @@ export class BarChartComponent implements OnInit {
   private legendMargin = 50;
   private axisStrokeWidth = 2;
   private axisColor = 'black';
+  private barWidth = 60;
 
   stats: Istat[];
 
@@ -32,5 +36,13 @@ export class BarChartComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  getHeight(point: Istat): number {
+    return point.value;
+  }
+
+  getYStart(point: Istat): number {
+    return this.height - point.value - this.legendMargin;
   }
 }
