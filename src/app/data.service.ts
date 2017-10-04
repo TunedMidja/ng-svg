@@ -28,7 +28,7 @@ export class DataService {
     if (this.stats.length > 3) {
       this.stats.splice(this.stats.indexOf(s), 1);
     } else {
-      alert('you need atleast 3 stats!');
+      alert('You need at least 3 stats!');
     }
   }
 }
