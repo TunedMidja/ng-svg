@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
       <p><a routerLink='/stats' routerLinkActive="active">Stats Component</a></p>
       <p><a routerLink='/beam' routerLinkActive="active">Beam Component</a></p>
       <p><a routerLink='/section' routerLinkActive="active">Section Component</a></p>
+      <p><a routerLink='/bar-chart' routerLinkActive="active">Bar Chart Component</a></p>
     </nav>
   `,
   styles: []
