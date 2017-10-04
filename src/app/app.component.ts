@@ -10,6 +10,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
     <a routerLink='/stats' routerLinkActive="active">Stats Component</a>
     <a routerLink='/beam' routerLinkActive="active">Beam Component</a>
     <a routerLink='/section' routerLinkActive="active">Section Component</a>
+    <a routerLink='/bar-chart' routerLinkActive="active">Bar Chart Component</a>
   </nav>
 
   <router-outlet></router-outlet>

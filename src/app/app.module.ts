@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -15,11 +14,13 @@ import { BeamComponent } from "app/beam/beam.component";
 import { SectionComponent } from "app/section/section.component";
 import { HomeComponent } from "app/home/home.component";
 import { DimensionComponent } from './dimension/dimension.component';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
 
 const appRoutes: Routes = [
   {path: 'stats', component: StatsComponent},
   {path: 'beam', component: BeamComponent},
   {path: 'section', component: SectionComponent},
+  {path: 'bar-chart', component: BarChartComponent},
   {path: '', component: HomeComponent},
   {path: '**', redirectTo: '/'}
 ]
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     ControlsComponent,
     GraphComponent,
     DataviewComponent,
-    DimensionComponent
+    DimensionComponent,
+    BarChartComponent
   ],
   imports: [
     BrowserModule,
