@@ -1,11 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataService} from '../data.service';
 import {Istat} from '../interfaces';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-bar-chart',
   template: `
     <app-controls></app-controls>
+    <div style="height: 20px;"></div>
     <div>
       <svg [attr.width]="width" [attr.height]="height">
         <svg:g>
@@ -34,6 +36,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   private barWidth = 10;
   private spaceBetweenBars = 5;
   private barToSpaceRatio = 5;
+  private verticalBarScale = 1;
   private statsSubscription;
 
   stats: Istat[];
@@ -54,16 +57,23 @@ export class BarChartComponent implements OnInit, OnDestroy {
   }
 
   private getHeight(point: Istat): number {
-    return point.value;
+    return point.value * this.verticalBarScale;
   }
 
   private getYStart(point: Istat): number {
-    return this.height - point.value - this.legendMargin;
+    return this.height - point.value * this.verticalBarScale - this.legendMargin;
   }
 
   private initBarChart(stats: Istat[]) {
     this.stats = stats;
     this.barWidth = this.graphWidth / (this.stats.length + this.stats.length / this.barToSpaceRatio);
     this.spaceBetweenBars = this.barWidth / this.barToSpaceRatio;
+
+    const max = _.maxBy(this.stats, point => {
+      console.log('point:', point);
+      return point.value;
+    });
+
+    this.verticalBarScale = this.graphHeight / max.value;
   }
 }
