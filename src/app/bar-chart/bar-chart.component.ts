@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataService} from '../data.service';
 import {Istat} from '../interfaces';
 
 @Component({
   selector: 'app-bar-chart',
   template: `
+    <app-controls></app-controls>
     <div>
       <svg [attr.width]="width" [attr.height]="height">
         <svg:g>
           <svg:line [attr.x1]="legendMargin" y1="0" [attr.x2]="legendMargin" [attr.y2]="width-legendMargin" [attr.stroke-width]="axisStrokeWidth" [attr.stroke]="axisColor"></svg:line>
           <svg:line [attr.x1]="legendMargin" [attr.y1]="height-legendMargin" [attr.x2]="width" [attr.y2]="width-legendMargin" [attr.stroke-width]="axisStrokeWidth" [attr.stroke]="axisColor"></svg:line>
-          <svg:rect *ngFor="let stat of stats; index as i" [attr.x]="legendMargin + i * (barWidth + 10)" [attr.y]="getYStart(stat)" [attr.height]="getHeight(stat)" [attr.width]="barWidth" />
+          <svg:rect *ngFor="let stat of stats; index as i" [attr.x]="legendMargin + i * (barWidth + spaceBetweenBars)" [attr.y]="getYStart(stat)" [attr.height]="getHeight(stat)" [attr.width]="barWidth" />
         </svg:g>
       </svg>
     </div>
+    <app-dataview [stats]="stats"></app-dataview>
   `,
   styles: [`
     rect {
@@ -21,28 +23,47 @@ import {Istat} from '../interfaces';
     }
   `]
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent implements OnInit, OnDestroy {
   private width = 400;
   private height = 400;
   private legendMargin = 50;
+  private graphWidth = this.width - this.legendMargin;
+  private graphHeight = this.height - this.legendMargin;
   private axisStrokeWidth = 2;
   private axisColor = 'black';
-  private barWidth = 60;
+  private barWidth = 10;
+  private spaceBetweenBars = 5;
+  private barToSpaceRatio = 5;
+  private statsSubscription;
 
   stats: Istat[];
 
   constructor(private dataService: DataService) {
-    this.stats = this.dataService.getStats();
   }
 
   ngOnInit() {
+    this.initBarChart(this.dataService.getStats());
+
+    this.statsSubscription = this.dataService.getStatsObservable().subscribe(stats => {
+      this.initBarChart(stats);
+    });
   }
 
-  getHeight(point: Istat): number {
+  ngOnDestroy() {
+    this.statsSubscription.unsubscribe();
+  }
+
+  private getHeight(point: Istat): number {
     return point.value;
   }
 
-  getYStart(point: Istat): number {
+  private getYStart(point: Istat): number {
     return this.height - point.value - this.legendMargin;
+  }
+
+  private initBarChart(stats: Istat[]) {
+    this.stats = stats;
+    this.barWidth = this.graphWidth / (this.stats.length + this.stats.length / this.barToSpaceRatio);
+    this.spaceBetweenBars = this.barWidth / this.barToSpaceRatio;
   }
 }
