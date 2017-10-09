@@ -14,7 +14,8 @@ import * as _ from 'lodash';
           <svg:line [attr.x1]="legendMargin" y1="0" [attr.x2]="legendMargin" [attr.y2]="height-legendMargin" [attr.stroke-width]="axisStrokeWidth" [attr.stroke]="axisColor"></svg:line>
           <svg:line [attr.x1]="legendMargin" [attr.y1]="height-legendMargin" [attr.x2]="width" [attr.y2]="height-legendMargin" [attr.stroke-width]="axisStrokeWidth" [attr.stroke]="axisColor"></svg:line>
           <svg:rect *ngFor="let stat of stats; index as i" [attr.x]="legendMargin + i * (barWidth + spaceBetweenBars)" [attr.y]="getYStart(stat)" [attr.height]="getHeight(stat)" [attr.width]="barWidth" />
-          <svg:text *ngFor="let stat of stats; index as i" [attr.x]="legendMargin + i * (barWidth + spaceBetweenBars)" [attr.y]="height-legendMargin+10" [attr.transform]="getXLegendRotation(stat, i)">{{stat.label}}</svg:text>
+          <svg:text *ngFor="let stat of stats; index as i" [attr.x]="legendMargin + i * (barWidth + spaceBetweenBars)" [attr.y]="height-legendMargin+15" [attr.transform]="getXLegendRotation(stat, i)">{{stat.label}}</svg:text>
+          <svg:text *ngFor="let legendValue of yAxisLegendValues; index as i" [attr.x]="legendMargin/2" [attr.y]="graphHeight - i * (yAxisLegendValues.length-1) * verticalBarScale">{{legendValue}}</svg:text>
         </svg:g>
       </svg>
     </div>
@@ -40,6 +41,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   private barToSpaceRatio = 5;
   private verticalBarScale = 1;
   private statsSubscription;
+  private yAxisLegendValues = [];
 
   stats: Istat[];
 
@@ -64,6 +66,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this.spaceBetweenBars = this.barWidth / this.barToSpaceRatio;
     const max = _.maxBy(this.stats, point => point.value);
     this.verticalBarScale = this.graphHeight / max.value;
+    this.yAxisLegendValues = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   }
 
   private getHeight(point: Istat): number {
