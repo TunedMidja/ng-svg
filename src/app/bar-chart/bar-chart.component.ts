@@ -15,7 +15,9 @@ import * as _ from 'lodash';
           <svg:line [attr.x1]="legendMargin" [attr.y1]="height-legendMargin" [attr.x2]="width" [attr.y2]="height-legendMargin" [attr.stroke-width]="axisStrokeWidth" [attr.stroke]="axisColor"></svg:line>
           <svg:rect *ngFor="let stat of stats; index as i" [attr.x]="legendMargin + i * (barWidth + spaceBetweenBars)" [attr.y]="getYStart(stat)" [attr.height]="getHeight(stat)" [attr.width]="barWidth" />
           <svg:text *ngFor="let stat of stats; index as i" [attr.x]="legendMargin + i * (barWidth + spaceBetweenBars)" [attr.y]="height-legendMargin+15" [attr.transform]="getXLegendRotation(stat, i)">{{stat.label}}</svg:text>
-          <svg:text *ngFor="let legendValue of yAxisLegendValues; index as i" [attr.x]="legendMargin/2" [attr.y]="graphHeight - i * graphHeight / yAxisLegendValues.length + topGraphMargin">{{legendValue}}</svg:text>
+          <svg:text *ngFor="let legendValue of yAxisLegendValues; index as i" [attr.x]="legendMargin*3/5" [attr.y]="graphHeight - i * graphHeight / yAxisLegendValues.length + topGraphMargin">{{legendValue}}</svg:text>
+          <svg:text [attr.x]="legendMargin+graphWidth/2" [attr.y]="graphHeight+legendMargin">Skill</svg:text>
+          <svg:text [attr.x]="0" [attr.y]="graphHeight/2">Level</svg:text>
         </svg:g>
       </svg>
     </div>
@@ -32,7 +34,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   private topGraphMargin = 25;
   private width = 400 + this.rightGraphMargin;
   private height = 400 + this.topGraphMargin;
-  private legendMargin = 100;
+  private legendMargin = 120;
   private graphWidth = this.width - this.legendMargin - this.rightGraphMargin;
   private graphHeight = this.height - this.legendMargin -this.topGraphMargin;
   private axisStrokeWidth = 2;
