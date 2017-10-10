@@ -15,7 +15,7 @@ import * as _ from 'lodash';
           <svg:line [attr.x1]="legendMargin" [attr.y1]="height-legendMargin" [attr.x2]="width" [attr.y2]="height-legendMargin" [attr.stroke-width]="axisStrokeWidth" [attr.stroke]="axisColor"></svg:line>
           <svg:rect *ngFor="let stat of stats; index as i" [attr.x]="legendMargin + i * (barWidth + spaceBetweenBars)" [attr.y]="getYStart(stat)" [attr.height]="getHeight(stat)" [attr.width]="barWidth" />
           <svg:text *ngFor="let stat of stats; index as i" [attr.x]="legendMargin + i * (barWidth + spaceBetweenBars)" [attr.y]="height-legendMargin+15" [attr.transform]="getXLegendRotation(stat, i)">{{stat.label}}</svg:text>
-          <svg:text *ngFor="let legendValue of yAxisLegendValues; index as i" [attr.x]="legendMargin/2" [attr.y]="graphHeight - i * (yAxisLegendValues.length-1) * verticalBarScale">{{legendValue}}</svg:text>
+          <svg:text *ngFor="let legendValue of yAxisLegendValues; index as i" [attr.x]="legendMargin/2" [attr.y]="graphHeight - i * graphHeight / yAxisLegendValues.length + topGraphMargin">{{legendValue}}</svg:text>
         </svg:g>
       </svg>
     </div>
@@ -29,11 +29,12 @@ import * as _ from 'lodash';
 })
 export class BarChartComponent implements OnInit, OnDestroy {
   private rightGraphMargin = 50;
+  private topGraphMargin = 25;
   private width = 400 + this.rightGraphMargin;
-  private height = 400;
+  private height = 400 + this.topGraphMargin;
   private legendMargin = 100;
   private graphWidth = this.width - this.legendMargin - this.rightGraphMargin;
-  private graphHeight = this.height - this.legendMargin;
+  private graphHeight = this.height - this.legendMargin -this.topGraphMargin;
   private axisStrokeWidth = 2;
   private axisColor = 'black';
   private barWidth = 10;
@@ -42,6 +43,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   private verticalBarScale = 1;
   private statsSubscription;
   private yAxisLegendValues = [];
+  private yAxisLegendValueSteps = 10;
 
   stats: Istat[];
 
@@ -66,7 +68,12 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this.spaceBetweenBars = this.barWidth / this.barToSpaceRatio;
     const max = _.maxBy(this.stats, point => point.value);
     this.verticalBarScale = this.graphHeight / max.value;
-    this.yAxisLegendValues = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    console.log('this.verticalBarScale:', this.verticalBarScale);
+    const numOfYAxisLegendValues = Math.ceil(max.value / this.yAxisLegendValueSteps) + 1;
+    this.yAxisLegendValues = [];
+    for (let i=0; i<numOfYAxisLegendValues; i++) {
+      this.yAxisLegendValues.push(i*this.yAxisLegendValueSteps);
+    }
   }
 
   private getHeight(point: Istat): number {
