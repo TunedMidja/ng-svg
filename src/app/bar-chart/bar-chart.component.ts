@@ -70,7 +70,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this.spaceBetweenBars = this.barWidth / this.barToSpaceRatio;
     const max = _.maxBy(this.stats, point => point.value);
     this.verticalBarScale = this.graphHeight / max.value;
-    console.log('this.verticalBarScale:', this.verticalBarScale);
     const numOfYAxisLegendValues = Math.ceil(max.value / this.yAxisLegendValueSteps) + 1;
     this.yAxisLegendValues = [];
     for (let i=0; i<numOfYAxisLegendValues; i++) {
